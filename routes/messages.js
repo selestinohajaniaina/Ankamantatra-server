@@ -12,7 +12,7 @@ router.post('/', authentication, async (req, res, next) => {
     const { id } = jwt.verify(token, secretKey);
     const { message } = req.body;
     const _message = await Message.create({content: message, userId: id});
-    res.status(201).json({ status: true, message: 'Voaray ny hafatra', data: [] });
+    res.status(201).json({ status: true, message: 'Voarainay ny hafatrao', data: [] });
 });
 
 router.get('/:id', authentication, async (req, res, next) => {
@@ -21,7 +21,6 @@ router.get('/:id', authentication, async (req, res, next) => {
         where: { id: id },
         include: [User]
     })
-    console.log(_message);
     res.status(201).json({ status: true, message: 'message id 1 iny ', data: _message });
 })
 

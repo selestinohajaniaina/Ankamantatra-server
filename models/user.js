@@ -13,6 +13,9 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       User.hasMany(models.Message, { foreignKey: 'userId' })
       User.hasMany(models.Ankamantatra, { foreignKey: 'userId' })
+      User.hasMany(models.Enregistrement, { foreignKey: 'userId' })
+      User.hasMany(models.Response, { foreignKey: 'userId' })
+      User.hasMany(models.Reaction, { foreignKey: 'userId' })
     }
   }
   User.init({

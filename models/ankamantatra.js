@@ -13,10 +13,14 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       Ankamantatra.belongsTo(models.User, { foreignKey: 'userId' })
       Ankamantatra.belongsTo(models.Category, { foreignKey: 'categoryId' })
+      Ankamantatra.hasMany(models.Enregistrement, { foreignKey: 'ankamantatraId' })
+      Ankamantatra.hasMany(models.Reaction, { foreignKey: 'ankamantatraId' })
+      Ankamantatra.hasMany(models.Response, { foreignKey: 'ankamantatraId' })
     }
   }
   Ankamantatra.init({
     content: DataTypes.STRING,
+    response: DataTypes.STRING,
     categoryId: DataTypes.INTEGER,
     userId: DataTypes.INTEGER
   }, {
