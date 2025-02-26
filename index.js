@@ -36,5 +36,8 @@ app.post('/token', authentication, (req, res, next) => {
 app.get('/', (req, res) => {
     res.send({status: true, message: 'server up, db connected succesfully', data: []});
 })
+app.use((req, res) => {
+    res.status(404).json({ status: false, message: 'Rohy tsy hita ...', data: [] });
+});
 
 app.listen(port, console.log(`server run in ${port}`));

@@ -28,22 +28,33 @@ router.get('/profil', authentication, async (req, res, next) => {
     res.status(200).json({ status: true, message: 'ireo mombamomba anao', data: users, type: type});
 })
 
+router.put('/profil', authentication, async (req, res, next) => {
+    const token = req.headers['authorization'];
+    const { id } = jwt.verify(token, secretKey);
+    const { name, email, password } = req.body;
+    const user = await User.update({
+        name: name,
+        email: email,
+        password: jwt.sign( password, secretKey)
+    }, { where: {id: id} });
+    res.status(200).json({ status: true, message: 'voaova ireo mombamomba anao', data: user, type: 'pro'});
+})
+
 router.post('/profil', async (req, res) => {
     const { email, password } = req.body;
     const user = await User.findOne({
         where: {email: email}
     });
-    let message = 'tontosa ny fidirana...';
     if(user) {
-        if(password != passwordUnhased) message = 'Diso ny teny miafina...';
-        else {
-            const { passwordUnhased } = jwt.verify(user.password, secretKey);
+        const passwordUnhased = jwt.verify(user.password, secretKey);
+        if(password != passwordUnhased) {
+            res.status(201).json({ status: false, message: 'Diso ny teny miafina...', data: null, token: null});
+        } else {
             const token = jwt.sign({id: user.id, type: 'pro'}, secretKey);
-            res.status(201).json({ status: true, message: message, data: user, token: token});
+            res.status(201).json({ status: true, message: 'tontosa ny fidirana...', data: user, token: token});
         }
     } else {
-        message = 'Tsy hita ao anaty mambra...';
-        res.status(201).json({ status: false, message: message, data: null, token: null});
+        res.status(201).json({ status: false, message: 'Tsy hita ao anaty mambra...', data: null, token: null});
     }
 });
 
