@@ -38,4 +38,15 @@ router.get('/', authentication, async (req, res, next) => {
     res.status(201).json({ status: true, message: 'Tontosa ny fakana ankamantatra', data: newAnkamantatra, uid: id });
 });
 
+router.get('/mine', authentication, async (req, res, next) => {
+    const token = req.headers['authorization'];
+    const { id } = jwt.verify(token, secretKey);
+    let ankamantatras = await Ankamantatra.findAll({
+        order: [['createdAt', 'DESC']],
+        where: {userId: id},
+        include: [Reaction, Response]
+    });
+    res.status(201).json({ status: true, message: 'Tontosa ny fakana ireo ankamantatrao', data: ankamantatras });
+});
+
 module.exports = router;

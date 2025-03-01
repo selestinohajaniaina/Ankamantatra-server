@@ -1,5 +1,5 @@
 const express = require('express');
-const  { sequelize, Enregistrement, Ankamantatra, User }  = require('../models');
+const  { sequelize, Enregistrement, Ankamantatra, User, Reaction, Response }  = require('../models');
 const jwt = require('jsonwebtoken');
 const Environement = require('../env');
 const authentication = require('../middleware');
@@ -35,7 +35,10 @@ router.get('/', authentication, async (req, res, next) => {
     let enregistrement = await Enregistrement.findAll({
         order: [['createdAt', 'DESC']],
         where: {userId: id},
-        include: [Ankamantatra, User]
+        include: [{
+            model: Ankamantatra,
+            include: [Reaction, Response, User]
+        }]
     });
     res.status(201).json({ status: true, message: 'Tontosa ny fakana ireo tahiry', data: enregistrement });
 });
