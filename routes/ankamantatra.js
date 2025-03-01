@@ -49,4 +49,17 @@ router.get('/mine', authentication, async (req, res, next) => {
     res.status(201).json({ status: true, message: 'Tontosa ny fakana ireo ankamantatrao', data: ankamantatras });
 });
 
+router.get('/:id', authentication, async (req, res, next) => {
+    // const token = req.headers['authorization'];
+    // const { id } = jwt.verify(token, secretKey);
+    const id = req.params.id;
+    let ankamantatra = await Ankamantatra.findByPk(id, {
+        include: [User, Reaction, {
+            model: Response,
+            include: [User]
+        }]
+    });
+    res.status(201).json({ status: true, message: `Tontosa ny fakana ankamantatrao faha ${id}`, data: ankamantatra });
+});
+
 module.exports = router;
