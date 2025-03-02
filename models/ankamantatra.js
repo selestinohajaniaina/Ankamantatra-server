@@ -16,6 +16,7 @@ module.exports = (sequelize, DataTypes) => {
       Ankamantatra.hasMany(models.Enregistrement, { foreignKey: 'ankamantatraId' })
       Ankamantatra.hasMany(models.Reaction, { foreignKey: 'ankamantatraId' })
       Ankamantatra.hasMany(models.Response, { foreignKey: 'ankamantatraId' })
+      Ankamantatra.hasMany(models.Notification, { foreignKey: 'ankamantatraId' })
     }
   }
   Ankamantatra.init({

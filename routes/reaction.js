@@ -1,5 +1,5 @@
 const express = require('express');
-const  { Reaction }  = require('../models');
+const  { Reaction, Notification }  = require('../models');
 const jwt = require('jsonwebtoken');
 const Environement = require('../env');
 const authentication = require('../middleware');
@@ -18,8 +18,10 @@ router.post('/', authentication, async (req, res, next) => {
 
     if (entry) {
         await entry.destroy();
+        // const notification = await Notification.create({userId: id, ankamantatraId: ankamantatra, type: 'unlike', message: '', isRead: false});
     } else {
         const reaction = await Reaction.create({like: 1, userId: id, ankamantatraId: ankamantatra});
+        const notification = await Notification.create({userId: id, ankamantatraId: ankamantatra, type: 'like', message: '', isRead: false});
     }
     
     const reactionLenght = await Reaction.count({

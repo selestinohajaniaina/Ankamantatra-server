@@ -10,6 +10,7 @@ const ankamantatraRoutes = require('./routes/ankamantatra');
 const reactionRoutes = require('./routes/reaction');
 const responseRoutes = require('./routes/response');
 const enregistrementRoutes = require('./routes/enregistrement');
+const notificationRoutes = require('./routes/notification');
 const authentication = require('./middleware');
 const port = new Environement().PORT;
 const app = express();
@@ -28,6 +29,7 @@ app.use('/ankamantatras', ankamantatraRoutes);
 app.use('/reactions', reactionRoutes);
 app.use('/responses', responseRoutes);
 app.use('/enregistrements', enregistrementRoutes);
+app.use('/notifications', notificationRoutes);
 
 app.post('/token', authentication, (req, res, next) => {
     res.send({data: req.body});

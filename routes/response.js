@@ -1,5 +1,5 @@
 const express = require('express');
-const  { Response }  = require('../models');
+const  { Response, Notification }  = require('../models');
 const jwt = require('jsonwebtoken');
 const Environement = require('../env');
 const authentication = require('../middleware');
@@ -14,6 +14,7 @@ router.post('/', authentication, async (req, res, next) => {
     
     const { ankamantatra, valinteny } = req.body;
     const response = await Response.create({content: valinteny, userId: id, ankamantatraId: ankamantatra});
+    const notification = await Notification.create({userId: id, ankamantatraId: ankamantatra, type: 'answer', message: '', isRead: false});
     const responseLenght = await Response.count({
         where: { ankamantatraId: ankamantatra }
     });
