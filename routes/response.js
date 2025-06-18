@@ -10,8 +10,6 @@ const router = express.Router();
 router.post('/', authentication, async (req, res, next) => {
     const token = req.headers['authorization'];
     const { id } = jwt.verify(token, secretKey);
-    console.log('\n\nvaliny ', req.body);
-    
     const { ankamantatra, valinteny } = req.body;
     const response = await Response.create({content: valinteny, userId: id, ankamantatraId: ankamantatra});
     const notification = await Notification.create({userId: id, ankamantatraId: ankamantatra, type: 'answer', message: '', isRead: false});
